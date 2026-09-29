@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="N2N_Saenai.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid>
+        <!-- 分成左右两部分 -->
+
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="2*" />
+
+            <ColumnDefinition Width="3*" />
+
+        </Grid.ColumnDefinitions>
+
+        <!-- 左侧 -->
+
+        <Border
+            Grid.Column="0"
+            Margin="24"
+            Background="#E6E2DD"
+            CornerRadius="24">
+
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="16">
+
+                <!-- 后面这里可以换成 Logo -->
+
+                <FontIcon
+                    FontSize="72"
+                    Glyph="&#xE968;" />
+
+                <TextBlock
+                    FontSize="36"
+                    FontWeight="SemiBold"
+                    Text="N2N Launcher" />
+
+                <TextBlock
+                    Opacity="0.6"
+                    Text="Secure · Simple · Fast" />
+
+            </StackPanel>
+
+        </Border>
+
+        <!-- 右侧 -->
+
+        <Grid Grid.Column="1">
+
+            <Border
+                Width="420"
+                Padding="48"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                CornerRadius="24"
+                Background="#F8F7F5">
+
+                <StackPanel Spacing="18">
+
+                    <TextBlock
+                        FontSize="32"
+                        FontWeight="SemiBold"
+                        Text="欢迎回来" />
+
+                    <TextBlock
+                        Margin="0,0,0,12"
+                        Opacity="0.65"
+                        Text="登录你的账号继续使用" />
+
+                    <TextBox
+                        x:Name="Username"
+                        Height="42"
+                        PlaceholderText="用户名" />
+
+                    <PasswordBox
+                        x:Name="Password"
+                        Height="42"
+                        PlaceholderText="密码" />
+
+                    <Button
+                        x:Name="LoginButton"
+                        Height="44"
+                        Margin="0,12,0,0"
+                        Content="登录"
+                        Click="LoginButton_Click" />
+
+                </StackPanel>
+
+            </Border>
+
+        </Grid>
+
+    </Grid>
+</Page>

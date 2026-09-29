@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="N2N_Saenai.Views.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Padding="24">
+
+        <Grid.RowDefinitions>
+
+            <!-- 状态卡片 -->
+
+            <RowDefinition Height="180"/>
+
+            <!-- 日志 -->
+
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+
+        <!-- 状态区 -->
+
+        <Border
+        Grid.Row="0"
+        Background="#F5F5F5"
+        CornerRadius="20"
+        Padding="32">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="*" />
+
+                    <ColumnDefinition Width="220" />
+
+                </Grid.ColumnDefinitions>
+
+                <!-- 左边信息 -->
+
+                <StackPanel
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Spacing="8">
+
+                <TextBlock
+                x:Name="StatusText"
+                FontSize="20"
+                FontWeight="SemiBold"
+                Text="● 未连接" />
+
+                 <TextBlock
+                x:Name="UserText"
+                FontSize="14"
+                Opacity="0.8"
+                Text="用户：---" />
+
+                <TextBlock
+                x:Name="CommunityText"
+                FontSize="14"
+                Opacity="0.8"
+                Text="网络：---" />
+
+                <TextBlock
+                x:Name="IPText"
+                FontSize="14"
+                Opacity="0.8"
+                Text="IP：---" />
+
+                </StackPanel>
+
+                <!-- 右边按钮 -->
+
+                <Button
+                Grid.Column="1"
+                x:Name="ConnectButton"
+                Width="180"
+                Height="56"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="连接"
+                Click="ConnectButton_Click" />
+
+            </Grid>
+
+        </Border>
+
+        <!-- 日志 -->
+
+        <Border
+        Grid.Row="1"
+        Margin="0,16,0,0"
+        Background="#FAFAFA"
+        CornerRadius="20"
+        Padding="20">
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="Auto" />
+
+                    <RowDefinition Height="*" />
+
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                FontSize="18"
+                FontWeight="SemiBold"
+                Text="日志" />
+
+                <TextBox
+                x:Name="LogBox"
+                Grid.Row="1"
+                Margin="0,12,0,0"
+                IsReadOnly="True"
+                AcceptsReturn="True"
+                TextWrapping="Wrap" />
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+</Page>

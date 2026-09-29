@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "N2N-Saenai (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "N2N-Saenai (Unpackaged)": {
+      "commandName": "Project"
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    }
+  }
+}
