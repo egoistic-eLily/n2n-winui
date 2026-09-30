@@ -1,4 +1,4 @@
-# Saenai Network
+# n2n-winui
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
@@ -22,7 +22,7 @@ This project cannot run on its own. It depends on:
 
 ```
 N2N_TOOLS_WINUI/
-├── N2N-Saenai.slnx            # Solution
+├── N2N-Saenai.slnx            # Solution (files keep the historical N2N-Saenai name)
 ├── N2N-Saenai.csproj          # WinUI 3 application project
 ├── App.xaml / MainWindow.xaml # Entry point and main window
 ├── Views/                     # Pages (login page, home/connection page)
@@ -49,7 +49,7 @@ N2N_TOOLS_WINUI/
 
 ## Building
 
-### 1. Build the n2n edge binary (with the Saenai pipe host)
+### 1. Build the n2n edge binary (with the custom pipe host)
 
 ```powershell
 cmake -S external/n2n -B external/n2n/build
@@ -58,7 +58,7 @@ cmake --build external/n2n/build --config Release --target edge
 
 Output: `external/n2n/build/Release/edge.exe`.
 
-The CMake project compiles the upstream edge together with `external/n2n/saenai/MAIN.cpp` (`/utf-8` is enforced project-wide; the Chinese log literals must be UTF-8 encoded or `nlohmann::json::dump()` will abort the process). The resulting executable stays fully compatible with the native n2n command line — it only enters Saenai pipe mode when started with `--saenai-pipe <name>`.
+The CMake project compiles the upstream edge together with `external/n2n/saenai/MAIN.cpp` (`/utf-8` is enforced project-wide; the Chinese log literals must be UTF-8 encoded or `nlohmann::json::dump()` will abort the process). The resulting executable stays fully compatible with the native n2n command line — it only enters pipe mode when started with `--saenai-pipe <name>` (`saenai` is merely the internal code prefix).
 
 ### 2. Build the app
 

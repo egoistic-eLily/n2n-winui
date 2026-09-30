@@ -1,4 +1,4 @@
-# Saenai Network
+# n2n-winui
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
@@ -22,7 +22,7 @@ WinUI 3 桌面客户端，以图形方式管理 [n2n](https://github.com/ntop/n2
 
 ```
 N2N_TOOLS_WINUI/
-├── N2N-Saenai.slnx            # 解决方案
+├── N2N-Saenai.slnx            # 解决方案（文件名沿用历史上的 N2N-Saenai 命名）
 ├── N2N-Saenai.csproj          # WinUI 3 应用工程
 ├── App.xaml / MainWindow.xaml # 应用入口与主窗口
 ├── Views/                     # 页面（登录页、主页/连接页）
@@ -33,7 +33,7 @@ N2N_TOOLS_WINUI/
 ├── Assets/                    # 应用图标等资源
 ├── drivers/tap0901/           # 随应用分发的 TAP-Windows V9 驱动包
 ├── external/n2n/              # 内嵌 n2n 3.0 源码
-│   ├── saenai/MAIN.cpp        # Saenai 定制入口：管道接收配置 → 调用 edge()
+│   ├── saenai/MAIN.cpp        # 定制入口：管道接收配置 → 调用 edge()
 │   ├── third_party/nlohmann/  # 内嵌 nlohmann/json 单头文件
 │   └── build/                 # CMake 构建输出（不入库，见 .gitignore）
 └── tools/test-pipe-edge.py    # 管道链路独立测试脚本（模拟应用完整启动流程）
@@ -49,7 +49,7 @@ N2N_TOOLS_WINUI/
 
 ## 编译
 
-### 1. 编译 n2n edge（含 Saenai 管道宿主）
+### 1. 编译 n2n edge（含定制管道宿主）
 
 ```powershell
 cmake -S external/n2n -B external/n2n/build
@@ -58,7 +58,7 @@ cmake --build external/n2n/build --config Release --target edge
 
 产物：`external/n2n/build/Release/edge.exe`。
 
-CMake 工程会把上游 edge 与 `external/n2n/saenai/MAIN.cpp` 一起编译（全局启用 `/utf-8`：源码中的中文日志字面量必须以 UTF-8 编码，否则 `nlohmann::json::dump()` 会直接终止进程）。生成的可执行文件完全兼容 n2n 原生命令行；仅当以 `--saenai-pipe <名称>` 启动时才进入 Saenai 管道模式。
+CMake 工程会把上游 edge 与 `external/n2n/saenai/MAIN.cpp` 一起编译（全局启用 `/utf-8`：源码中的中文日志字面量必须以 UTF-8 编码，否则 `nlohmann::json::dump()` 会直接终止进程）。生成的可执行文件完全兼容 n2n 原生命令行；仅当以 `--saenai-pipe <名称>` 启动时才进入管道模式（`saenai` 只是代码内部前缀）。
 
 ### 2. 编译应用
 
