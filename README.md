@@ -16,7 +16,7 @@ This project cannot run on its own. It depends on:
 | --- | --- |
 | [ntop/n2n](https://github.com/ntop/n2n) (3.0 stable, vendored in `external/n2n/`) | The VPN engine itself — encryption, packet forwarding, TAP handling |
 | [ChingCdesu/supernode-frontend](https://github.com/ChingCdesu/supernode-frontend) | **The foundation of everything**: the n2n supernode server and its management tooling that this client connects to |
-| [egoistic-eLily/N2N_TOOLS_Server](https://github.com/egoistic-eLily/N2N_TOOLS_Server) | A custom user-management/auth server created specifically for this project (repository not public yet). It validates sign-ins and returns the n2n session parameters |
+| [egoistic-eLily/n2n-user-server](https://github.com/egoistic-eLily/n2n-user-server) | A custom user-management/auth server created specifically for this project. It validates sign-ins and returns the n2n session parameters |
 
 ## Project structure
 
@@ -90,7 +90,10 @@ The script creates a named pipe, starts edge in pipe mode, sends a test configur
 
 ## Login API contract
 
-`POST https://saenai.asia:8443/login` with `Content-Type: application/json`:
+**This app ships without any default server address** (no default domain, certificate or credentials). To use it, you need your own [n2n-user-server](https://github.com/egoistic-eLily/n2n-user-server) deployment:
+
+1. Enter the login endpoint of your server (e.g. `https://your-server/login`) in the **Server** box on the login screen — the address is validated, used for sign-in, and remembered locally for the next launch. Alternatively, hard-code your endpoint in `Initialization/Config.cs` (`LauncherConfig.ApiUrl`) before building.
+2. The client posts to the configured endpoint with `Content-Type: application/json`:
 
 ```json
 {"userid":"alice","password":"user-password"}

@@ -12,7 +12,7 @@ public static class Login
     public static N2NUserData? UserData { get; private set; }
     public static string? LastError { get; private set; }
 
-    public static async Task<bool> UploadRequestAsync(string userId, string password)
+    public static async Task<bool> UploadRequestAsync(string userId, string password, string apiUrl)
     {
         LastError = null;
         if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(password))
@@ -20,9 +20,14 @@ public static class Login
             LastError = "请输入用户名和密码。";
             return false;
         }
+        if (string.IsNullOrWhiteSpace(apiUrl))
+        {
+            LastError = "请先填写服务器地址（你在使用的 n2n-user-server 登录接口）。";
+            return false;
+        }
         try
         {
-            using var request = new HttpRequestMessage(HttpMethod.Post, Initialize.Config.ApiUrl)
+            using var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
             {
                 Content = JsonContent.Create(new LoginRequest { UserId = userId.Trim(), Password = password },
                     AppJsonContext.Default.LoginRequest)
