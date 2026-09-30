@@ -16,7 +16,7 @@ WinUI 3 桌面客户端，以图形方式管理 [n2n](https://github.com/ntop/n2
 | --- | --- |
 | [ntop/n2n](https://github.com/ntop/n2n)（3.0 稳定版，内嵌于 `external/n2n/`） | VPN 引擎本体——加密、报文转发、TAP 处理 |
 | [ChingCdesu/supernode-frontend](https://github.com/ChingCdesu/supernode-frontend) | **一切的基础**：本客户端所连接的 n2n 超级节点服务器及其管理工具 |
-| [egoistic-eLily/N2N_TOOLS_Server](https://github.com/egoistic-eLily/N2N_TOOLS_Server) | 专为本项目编写的用户管理/验证服务端（仓库暂未公开），负责校验登录并返回 n2n 会话参数 |
+| [egoistic-eLily/n2n-user-server](https://github.com/egoistic-eLily/n2n-user-server) | 专为本项目编写的用户管理/验证服务端，负责校验登录并返回 n2n 会话参数 |
 
 ## 项目结构
 
@@ -90,7 +90,10 @@ python tools/test-pipe-edge.py
 
 ## 登录接口约定
 
-`POST https://saenai.asia:8443/login`，`Content-Type: application/json`：
+**本应用不内置任何默认服务器地址**（不含默认域名、证书或凭据）。使用前你需要部署自己的 [n2n-user-server](https://github.com/egoistic-eLily/n2n-user-server)：
+
+1. 在登录页的"服务器地址"一栏填入你自己服务端的登录接口（例如 `https://your-server/login`）——地址会先校验格式，登录成功后保存在本机，下次启动自动回填。也可以在编译前直接把地址写进 `Initialization/Config.cs`（`LauncherConfig.ApiUrl`）。
+2. 客户端向配置的接口发起 POST 请求，`Content-Type: application/json`：
 
 ```json
 {"userid":"alice","password":"user-password"}

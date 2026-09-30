@@ -30,4 +30,8 @@ public sealed class LoginResponse
     [JsonPropertyName("data")] public N2NUserData? Data { get; set; }
 }
 
-public sealed class LauncherConfig { public string ApiUrl { get; init; } = "https://saenai.asia:8443/login"; }
+/// <summary>
+/// Global defaults. No default login server is shipped: users enter their own
+/// server URL on the login screen (persisted locally), or set it here before building.
+/// </summary>
+public sealed class LauncherConfig { public string ApiUrl { get; init; } = string.Empty; }
