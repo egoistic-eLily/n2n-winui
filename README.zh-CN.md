@@ -116,4 +116,4 @@ python tools/test-pipe-edge.py
 
 ## 许可说明
 
-内嵌的 `external/n2n` 基于 [n2n](https://github.com/ntop/n2n) 3.0 稳定版，遵循 **GPLv3**；使用与分发本仓库时请一并遵守。
+本仓库以 **GNU General Public License v3.0（GPLv3）** 分发（见 [LICENSE](LICENSE)）。`external/n2n` 内嵌并修改了 [n2n](https://github.com/ntop/n2n) 3.0 稳定版，其代码以 GPLv3 授权并编译进随应用分发的 `edge.exe`，因此整个作品必须同样采用 GPLv3。

@@ -116,4 +116,4 @@ Expected response shape (extra fields are ignored):
 
 ## License notes
 
-The vendored `external/n2n` is based on [n2n](https://github.com/ntop/n2n) 3.0 stable and is licensed under **GPLv3**; use and redistribute this repository accordingly.
+This repository is distributed under the **GNU General Public License v3.0** (see [LICENSE](LICENSE)). It vendors and modifies [n2n](https://github.com/ntop/n2n) 3.0 stable (`external/n2n`), which is GPLv3-licensed and compiled into the shipped `edge.exe` — therefore the whole work must adopt GPLv3 as well.
