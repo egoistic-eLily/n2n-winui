@@ -22,8 +22,8 @@ WinUI 3 桌面客户端，以图形方式管理 [n2n](https://github.com/ntop/n2
 
 ```
 N2N_TOOLS_WINUI/
-├── N2N-Saenai.slnx            # 解决方案（文件名沿用历史上的 N2N-Saenai 命名）
-├── N2N-Saenai.csproj          # WinUI 3 应用工程
+├── n2n-winui.slnx             # 解决方案
+├── n2n-winui.csproj           # WinUI 3 应用工程
 ├── App.xaml / MainWindow.xaml # 应用入口与主窗口
 ├── Views/                     # 页面（登录页、主页/连接页）
 ├── Core/                      # edge 进程会话管理（命名管道宿主 Pipes.cs）
@@ -42,6 +42,7 @@ N2N_TOOLS_WINUI/
 ## 环境要求
 
 - Windows 10 1809+ / Windows 11，x64
+- 应用**以管理员身份运行**（启动时提示一次 UAC；此后连接节点不会再触发 UAC）
 - .NET 10 SDK（WinUI 3 / Windows App SDK 2.2）
 - Visual Studio 2026 或更高（含 MSVC 工具集与"C++ CMake tools for Windows"）
 - CMake 3.20+
@@ -62,10 +63,10 @@ CMake 工程会把上游 edge 与 `external/n2n/saenai/MAIN.cpp` 一起编译（
 
 ### 2. 编译应用
 
-用 Visual Studio 打开 `N2N-Saenai.slnx` 直接生成，或：
+用 Visual Studio 打开 `n2n-winui.slnx` 直接生成，或：
 
 ```powershell
-dotnet build N2N-Saenai.csproj -c Release
+dotnet build n2n-winui.csproj -c Release
 ```
 
 构建时会自动把 `drivers/tap0901` 与 `edge.exe` 拷贝到输出目录（`drivers/`、`n2n/`）。

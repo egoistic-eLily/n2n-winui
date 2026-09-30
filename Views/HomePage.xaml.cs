@@ -37,8 +37,10 @@ public sealed partial class HomePage : Page
     private async void DriverButton_Click(object sender, RoutedEventArgs e)
     {
         DriverButton.IsEnabled = false; DriverButton.Content = "正在检查…";
-        var result = await TapManager.EnsureInstalledAsync();
-        DriverButton.IsEnabled = true; DriverButton.Content = "检查 TAP 驱动";
+        DriverInstallResult result;
+        try { result = await TapManager.EnsureInstalledAsync(); }
+        finally { DriverButton.IsEnabled = true; DriverButton.Content = "检查 TAP 驱动"; }
+
         var message = result switch
         {
             DriverInstallResult.AlreadyInstalled => "TAP 驱动已就绪。",
@@ -47,7 +49,15 @@ public sealed partial class HomePage : Page
             DriverInstallResult.FilesMissing => "驱动文件未随应用发布。",
             _ => "驱动安装未完成，请在管理员终端中检查 pnputil 输出。"
         };
-        AddLog("驱动", message);
+
+        await new ContentDialog
+        {
+            Title = "TAP 驱动",
+            Content = message,
+            CloseButtonText = "知道了",
+            DefaultButton = ContentDialogButton.Close,
+            XamlRoot = Content.XamlRoot
+        }.ShowAsync();
     }
 
     private async void ConnectButton_Click(object sender, RoutedEventArgs e)
@@ -64,6 +74,38 @@ public sealed partial class HomePage : Page
         }
         catch (Exception ex) { AddLog("错误", ex.Message); SetDisconnected(); }
         finally { ConnectButton.IsEnabled = true; }
+    }
+
+    private async void LogoutButton_Click(object sender, RoutedEventArgs e)
+    {
+        // 本地退出：服务端无会话状态，只需停掉 edge 并清除内存中的登录数据。
+        // 若仍处于连接中，先弹窗警告，用户确认后断开连接再退出。
+        if (_session.IsRunning)
+        {
+            var dialog = new ContentDialog
+            {
+                Title = "当前仍处于连接状态",
+                Content = "退出登录将断开正在进行的 n2n 连接。确定要继续吗？",
+                PrimaryButtonText = "断开并退出",
+                CloseButtonText = "取消",
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = Content.XamlRoot
+            };
+            if (await dialog.ShowAsync() != ContentDialogResult.Primary) return;
+            await _session.StopAsync();
+        }
+
+        LogoutButton.IsEnabled = false;
+        try
+        {
+            Login.SignOut();
+            Frame.BackStack.Clear();
+            Frame.Navigate(typeof(LoginPage));
+        }
+        finally
+        {
+            LogoutButton.IsEnabled = true;
+        }
     }
 
     private void SetDisconnected()

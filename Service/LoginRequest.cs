@@ -12,6 +12,9 @@ public static class Login
     public static N2NUserData? UserData { get; private set; }
     public static string? LastError { get; private set; }
 
+    /// <summary>Local sign-out: the server keeps no session state, so there is nothing to revoke.</summary>
+    public static void SignOut() => UserData = null;
+
     public static async Task<bool> UploadRequestAsync(string userId, string password, string apiUrl)
     {
         LastError = null;

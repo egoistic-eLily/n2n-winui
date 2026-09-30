@@ -1,9 +1,9 @@
 {
   "profiles": {
-    "N2N-Saenai (Package)": {
+    "n2n-winui (Package)": {
       "commandName": "MsixPackage"
     },
-    "N2N-Saenai (Unpackaged)": {
+    "n2n-winui (Unpackaged)": {
       "commandName": "Project"
     },
     "WSL": {

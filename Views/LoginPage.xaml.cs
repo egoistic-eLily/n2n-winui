@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace N2N_Saenai.Views;
@@ -13,12 +14,21 @@ public sealed partial class LoginPage : Page
     // 地址在登录页填写并保存在本机，供下次启动时回填。
     private static readonly string SettingsPath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "N2N-Saenai", "server-url.txt");
+        "n2n-winui", "server-url.txt");
+
+    // 上一次成功登录的账号与密码（本机缓存，明文保存——应用本身以管理员运行，
+    // 登录凭据仅存在于本机）。
+    private static readonly string LoginCachePath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+        "n2n-winui", "login.txt");
 
     public LoginPage()
     {
         InitializeComponent();
         ServerUrl.Text = LoadServerUrl();
+        var (lastUserId, lastPassword) = LoadLoginCache();
+        Username.Text = lastUserId ?? string.Empty;
+        Password.Password = lastPassword ?? string.Empty;
     }
 
     private static string LoadServerUrl()
@@ -34,6 +44,29 @@ public sealed partial class LoginPage : Page
         {
             Directory.CreateDirectory(Path.GetDirectoryName(SettingsPath)!);
             File.WriteAllText(SettingsPath, url);
+        }
+        catch (IOException) { }
+        catch (UnauthorizedAccessException) { }
+    }
+
+    private static (string? UserId, string? Password) LoadLoginCache()
+    {
+        try
+        {
+            if (!File.Exists(LoginCachePath)) return (null, null);
+            var lines = File.ReadAllLines(LoginCachePath);
+            return (lines.ElementAtOrDefault(0), lines.ElementAtOrDefault(1));
+        }
+        catch (IOException) { return (null, null); }
+        catch (UnauthorizedAccessException) { return (null, null); }
+    }
+
+    private static void SaveLoginCache(string userId, string password)
+    {
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(LoginCachePath)!);
+            File.WriteAllLines(LoginCachePath, new[] { userId, password });
         }
         catch (IOException) { }
         catch (UnauthorizedAccessException) { }
@@ -73,6 +106,7 @@ public sealed partial class LoginPage : Page
                 return;
             }
             SaveServerUrl(serverUrl);
+            SaveLoginCache(Username.Text.Trim(), Password.Password);
             Frame.Navigate(typeof(HomePage));
         }
         finally

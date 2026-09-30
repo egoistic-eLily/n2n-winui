@@ -22,8 +22,8 @@ This project cannot run on its own. It depends on:
 
 ```
 N2N_TOOLS_WINUI/
-├── N2N-Saenai.slnx            # Solution (files keep the historical N2N-Saenai name)
-├── N2N-Saenai.csproj          # WinUI 3 application project
+├── n2n-winui.slnx             # Solution
+├── n2n-winui.csproj           # WinUI 3 application project
 ├── App.xaml / MainWindow.xaml # Entry point and main window
 ├── Views/                     # Pages (login page, home/connection page)
 ├── Core/                      # edge process session management (named-pipe host, Pipes.cs)
@@ -42,6 +42,7 @@ N2N_TOOLS_WINUI/
 ## Prerequisites
 
 - Windows 10 1809+ / Windows 11, x64
+- The app runs **as administrator** (one UAC prompt at startup; connecting a node never triggers further prompts)
 - .NET 10 SDK (WinUI 3 / Windows App SDK 2.2)
 - Visual Studio 2026 or newer with the MSVC toolset and *C++ CMake tools for Windows*
 - CMake 3.20+
@@ -62,10 +63,10 @@ The CMake project compiles the upstream edge together with `external/n2n/saenai/
 
 ### 2. Build the app
 
-Open `N2N-Saenai.slnx` in Visual Studio and build, or:
+Open `n2n-winui.slnx` in Visual Studio and build, or:
 
 ```powershell
-dotnet build N2N-Saenai.csproj -c Release
+dotnet build n2n-winui.csproj -c Release
 ```
 
 The build automatically copies `drivers/tap0901` and `edge.exe` into the output directory (`drivers/`, `n2n/`).

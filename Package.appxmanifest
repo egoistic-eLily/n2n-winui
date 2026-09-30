@@ -17,7 +17,7 @@
   <mp:PhoneIdentity PhoneProductId="bcfbd849-d5da-42f6-9ac9-3c1c5c660549" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>N2N-Saenai</DisplayName>
+    <DisplayName>n2n-winui</DisplayName>
     <PublisherDisplayName>TSUKASA SAKURAOCHI</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -36,8 +36,8 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="N2N-Saenai"
-        Description="N2N-Saenai"
+        DisplayName="n2n-winui"
+        Description="n2n-winui"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
