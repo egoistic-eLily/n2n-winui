@@ -1,55 +1,45 @@
-﻿using N2N_Saenai.Initialization;
-using N2N_Saenai.Views;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using N2N_Saenai.Initialization;
+using System.Net.Http.Json;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using N2N_Saenai.Serialization;
+using System;
 
-namespace N2N_Saenai.Service
+namespace N2N_Saenai.Service;
+
+public static class Login
 {
-    public static class Login {
+    public static N2NUserData? UserData { get; private set; }
+    public static string? LastError { get; private set; }
 
-        public static N2NUserData? userdata { get; private set; }
-
-        public static async Task<bool> UploadRequest(string username,string password) {
-            try
+    public static async Task<bool> UploadRequestAsync(string userId, string password)
+    {
+        LastError = null;
+        if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(password))
+        {
+            LastError = "请输入用户名和密码。";
+            return false;
+        }
+        try
+        {
+            using var request = new HttpRequestMessage(HttpMethod.Post, Initialize.Config.ApiUrl)
             {
-                Debug.WriteLine($"username-{username}-password-{password}");
-                var post = new Initialization.LoginRequest
-                {
-                    userid = username,
-                    password = password
-                };
-                Debug.WriteLine($"class-{post}");
-                var client = Initialization.Initialize._client;
-                using var request = new HttpRequestMessage(HttpMethod.Post, Initialization.Initialize._config.APIURL);
-                string json = JsonConvert.SerializeObject(post);
-
-                Debug.WriteLine("发送 JSON：");
-                Debug.WriteLine(json);
-                var content = new System.Net.Http.StringContent(json, Encoding.UTF8, "application/json");
-                request.Content = content;
-                var response = await client.SendAsync(request);
-                if (!response.IsSuccessStatusCode)
-                {
-                    return false;
-                }
-                var body = await response.Content.ReadAsStringAsync();
-                var apiResult = JsonConvert.DeserializeObject<Initialization.LoginResponse>(body);
-                if (apiResult == null || !apiResult.success || apiResult.data == null) return false;
-                userdata = apiResult.data;
-                Debug.WriteLine($"data-{userdata.supernode_ip}");
-                return true;
-            }
-            catch(Exception ex) {
-                Debug.WriteLine(ex);
-
+                Content = JsonContent.Create(new LoginRequest { UserId = userId.Trim(), Password = password },
+                    AppJsonContext.Default.LoginRequest)
+            };
+            using var response = await Initialize.Client.SendAsync(request);
+            if (!response.IsSuccessStatusCode)
+            {
+                LastError = $"服务器拒绝了请求（HTTP {(int)response.StatusCode}）。";
                 return false;
             }
-            
+            var result = await response.Content.ReadFromJsonAsync(AppJsonContext.Default.LoginResponse);
+            UserData = result is { Success: true, Data: not null } ? result.Data : null;
+            if (UserData is null) LastError = "用户名或密码错误，或服务器返回的数据不完整。";
+            return UserData is not null;
         }
+        catch (HttpRequestException ex) { LastError = $"无法连接服务器：{ex.Message}"; return false; }
+        catch (TaskCanceledException) { LastError = "连接服务器超时，请稍后重试。"; return false; }
+        catch (Exception ex) { LastError = $"登录组件出错：{ex.Message}"; return false; }
     }
 }

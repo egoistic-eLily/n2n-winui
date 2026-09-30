@@ -1,36 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Text.Json.Serialization;
+using N2N_Saenai.Serialization;
 
-namespace N2N_Saenai.Initialization
+namespace N2N_Saenai.Initialization;
+
+/// <summary>Contract returned by the launcher service after a successful sign-in.</summary>
+public sealed class LoginRequest
 {
-    public class LoginRequest
-    {
-        public string userid { get; set; }
-        public string password { get; set; }
-    }
-
-    public class N2NUserData
-    {
-        public string? user_id { get; set; }
-        public string supernode_ip { get; set; }
-        public int supernode_port { get; set; }
-        public string community_name { get; set; }
-        public string device_name { get; set; }
-        public string password { get; set; }
-        public string community_key { get; set; }
-        public int encrypt_algorithm { get; set; }
-    }
-
-    public class LoginResponse
-    { 
-        public bool success { get; set;  }
-        public N2NUserData? data { get; set; }
-    }
-
-
-    public class LauncherConfig
-    { 
-        public string APIURL { get; set; }
-    }
+    [JsonPropertyName("userid")] public string UserId { get; set; } = string.Empty;
+    [JsonPropertyName("password")] public string Password { get; set; } = string.Empty;
 }
+
+public sealed class N2NUserData
+{
+    [JsonPropertyName("user_id")]
+    [JsonConverter(typeof(StringOrNumberConverter))]
+    public string? UserId { get; set; }
+    [JsonPropertyName("supernode_ip")] public string SupernodeIp { get; set; } = string.Empty;
+    [JsonPropertyName("supernode_port")] public int SupernodePort { get; set; }
+    [JsonPropertyName("community_name")] public string CommunityName { get; set; } = string.Empty;
+    [JsonPropertyName("device_name")] public string DeviceName { get; set; } = string.Empty;
+    [JsonPropertyName("password")] public string Password { get; set; } = string.Empty;
+    [JsonPropertyName("community_key")] public string CommunityKey { get; set; } = string.Empty;
+    [JsonPropertyName("encrypt_algorithm")] public int EncryptAlgorithm { get; set; }
+}
+
+public sealed class LoginResponse
+{
+    [JsonPropertyName("success")] public bool Success { get; set; }
+    [JsonPropertyName("data")] public N2NUserData? Data { get; set; }
+}
+
+public sealed class LauncherConfig { public string ApiUrl { get; init; } = "https://saenai.asia:8443/login"; }

@@ -1,4 +1,19 @@
-.vs/
+# Build outputs
 bin/
 obj/
+AppPackages/
+external/n2n/build/
+
+# Visual Studio / Rider
+.vs/
+.idea/
 *.user
+*.suo
+*.sln.docstates
+
+# Test tool output
+tools/*.log
+
+# OS junk
+Thumbs.db
+Desktop.ini

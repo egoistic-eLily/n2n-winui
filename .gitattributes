@@ -1,0 +1,11 @@
+# GitHub linguist rules: only code written for this project counts
+# toward the language statistics.
+
+# The vendored n2n source tree is upstream code — exclude it from stats.
+external/n2n/** linguist-vendored
+
+# ...except the Saenai pipe host, which is written for this project.
+external/n2n/saenai/** -linguist-vendored
+
+# Bundled TAP driver package is third-party, not project code.
+drivers/** linguist-vendored
